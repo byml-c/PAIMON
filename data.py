@@ -151,7 +151,7 @@ class QAJsonLoader(BaseLoader):
                 doc = self.A, metadata = {"source": self.file_path, "page": page+1}
             )
             for doc in self.A:
-                doc.page_content = self.Q + doc.page_content
+                doc.page_content = self.Q + '$answer$' + doc.page_content
                 self.docs.append(doc)
 
         return self.docs

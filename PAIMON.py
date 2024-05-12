@@ -105,7 +105,7 @@ class PAIMON:
         })
         return result
 
-chatbot = PAIMON(verbose=True, bot_name="PAIMON")
+chatbot = PAIMON(verbose=True, bot_name="TEST")
 
 from flask import Flask, request, jsonify
 app = Flask(__name__)
@@ -129,18 +129,19 @@ def clear():
     return "OK"
 
 if __name__ == "__main__":
-    dir_list, name_list = ["./data/", "./data/website/"], []
-    for i in dir_list:
-        for j in os.listdir(i):
-            if os.path.isfile(i + j):
-                name_list.append(i + j)
-    # name_list = ["./data/" + i for i in [
-        # "website/【2023级本科生】美育核心课选课通知.md",
-        # "website/【2023级新生】大类内专业意向填报通知.md",
+    # dir_list, name_list = ["./data/", "./data/website/"], []
+    # for i in dir_list:
+    #     for j in os.listdir(i):
+    #         if os.path.isfile(i + j):
+    #             name_list.append(i + j)
+    name_list = ["./data/" + i for i in [
+        "【2023级本科生】美育核心课选课通知.md",
+        "【2023级本科生】新生入学教务活动安排.md",
         # "第二章：需求、供给与价格机制.pdf",
-        # "苏州校区.docx",
-    #     "选课.csv"
-    # ]]
+        "苏州校区.docx",
+        # "选课.csv"
+    ]]
     chatbot.load(name_list)
     # chatbot.load()
+    # chatbot.load(['南哪QA.qa'])
     app.run(host="127.0.0.1", port=8002)

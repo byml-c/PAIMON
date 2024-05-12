@@ -1,5 +1,6 @@
 import re
 import os
+import json
 import hashlib
 
 from adjustment.embeddings import ModelScopeEmbeddings
@@ -98,13 +99,30 @@ class Embedding:
                 query = s,
                 k = 5, fetch_k = 20
             )
-            print(result)
             return [doc for doc, _ in result if _ > distance]
         else:
             return []
 
 if __name__ == "__main__":
-    a = Embedding(size=512, cover=128, db_name="QA")
+    a = Embedding(size=512, cover=64, db_name="QA")
+    a.load(['南哪QA.qa'])
+
+    qa = json.load(open('南哪23级本科①群.txt.qa', 'r', encoding='utf-8'))
+    for it in range(len(qa)):
+        item = qa[it]
+        result = a.search(item['Q'])
+        print('原问题：{}\n原答案：{}\n'.format(item['Q'], item['A']))
+        for i in range(len(result)):
+            print('[{}] QA内容：{}'.format(i, result[i].page_content))
+        choice = input('\n请输入有关答案编号，以空格分隔：').split(' ')
+        if choice[0] == '':
+            continue
+        else:
+            qa[it]['A'] = ''
+            for ch in choice:
+                qa[it]['A'] += result[int(ch)].page_content.split('$answer$')[1] + '\n'
+    print(qa)
+
     # dir_path = "./data/"
     # name_list = [
     #     "website/【2023级本科生】美育核心课选课通知.md",
